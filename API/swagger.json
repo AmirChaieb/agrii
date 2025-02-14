@@ -1,0 +1,262 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Yosser App",
+    "description": "Yosser App",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:4000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Post",
+      "description": "Post API"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/api/post": {
+      "get": {
+        "tags": ["Post"],
+        "summary": "Get all Posts",
+        "parameters": [
+          {
+            "name": "Category",
+            "in": "query",
+            "required": false,
+            "description": "Category",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page Number",
+            "type": "integer",
+            "default": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "Page Size",
+            "type": "integer",
+            "default": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Post"],
+        "summary": "Create Post API",
+        "parameters": [
+          {
+            "name": "PostDescription",
+            "in": "formData",
+            "description": "Post Description",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Quantity",
+            "in": "formData",
+            "description": "Quantity",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Price",
+            "in": "formData",
+            "description": "Price",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Category",
+            "in": "formData",
+            "description": "Category",
+            "type": "string"
+          },
+          {
+            "name": "TVA",
+            "in": "formData",
+            "description": "TVA",
+            "type": "string"
+          },
+          {
+            "name": "Localisation",
+            "in": "formData",
+            "description": "Localisation",
+            "type": "string"
+          },
+          {
+            "name": "PostImage",
+            "in": "formData",
+            "description": "Post Image",
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/post/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "post Id",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Post"],
+        "summary": "Post Details based on Post Id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Post"],
+        "summary": "Update Post API",
+        "parameters": [
+            {
+                "name": "PostDescription",
+                "in": "formData",
+                "description": "Post Description",
+                "required": true,
+                "type": "string"
+              },
+              {
+                "name": "Quantity",
+                "in": "formData",
+                "description": "Quantity",
+                "required": true,
+                "type": "string"
+              },
+              {
+                "name": "Price",
+                "in": "formData",
+                "description": "Price",
+                "required": true,
+                "type": "string"
+              },
+              {
+                "name": "Category",
+                "in": "formData",
+                "description": "Category",
+                "type": "string"
+              },
+              {
+                "name": "TVA",
+                "in": "formData",
+                "description": "TVA",
+                "type": "string"
+              },
+              {
+                "name": "Localisation",
+                "in": "formData",
+                "description": "Localisation",
+                "type": "string"
+              },
+              {
+                "name": "PostImage",
+                "in": "formData",
+                "description": "Post Image",
+                "type": "file"
+              }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Post"],
+        "summary": "Delete Post API",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Post": {
+      "required": ["PostDescription", "postId", "Quantity", "Price"],
+      "properties": {
+        "postId": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "PostDescription": {
+          "type": "string"
+        },
+        "Quantity": {
+          "type": "string"
+        },
+        "Price": {
+          "type": "string"
+        },
+        "TVA": {
+          "type": "string"
+        },
+        "Localisation": {
+          "type": "string"
+        },
+        "Category": {
+          "type": "string"
+        },
+        "PostImage": {
+          "type": "string"
+        }
+      }
+    },
+    "ServiceResponse": {
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Post"
+          }
+        }
+      }
+    }
+  }
+}

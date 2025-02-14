@@ -1,0 +1,17 @@
+[
+    {
+      "id": "1",
+      "name": "John Doe",
+      "imageUrl": "assets/images/1.png"
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "imageUrl": "assets/images/1.png"
+    },
+    {
+      "id": "3",
+      "name": "Bob Johnson",
+      "imageUrl": "assets/images/1.png"
+    }
+  ]
