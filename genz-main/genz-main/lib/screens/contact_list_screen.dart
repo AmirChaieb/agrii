@@ -1,6 +1,7 @@
 import 'dart:convert'; 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; 
+import 'package:flutter/services.dart';
+import 'package:yoser/screens/about_screen.dart';
 import '../widgets/base_screen.dart';
 
 class ContactListScreen extends StatefulWidget {
@@ -195,12 +196,19 @@ Future<List<dynamic>> _loadUsers() async {
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: Colors.grey),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(Icons.info, color: Colors.green, size: 20),
-                            SizedBox(width: 8),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => AboutScreen()),
+                            );
+                          },
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                              Icon(Icons.info, color: Colors.green, size: 20),
+                          SizedBox(width: 8),
                             Text(
                               'Consultation',
                               style: TextStyle(
@@ -208,7 +216,8 @@ Future<List<dynamic>> _loadUsers() async {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],

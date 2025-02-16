@@ -8,8 +8,7 @@ import '../models/pagination.dart';
 final postsProvider = FutureProvider.family<List<Post>?, PaginationModel>(
         (ref, paginationModel){
       final apiRepository = ref.watch(apiService);
-
-      return apiRepository.getPosts(paginationModel.page, paginationModel.pageSize);
+      return apiRepository.getPosts(paginationModel.Category,paginationModel.page, paginationModel.pageSize);
 
     }
 );

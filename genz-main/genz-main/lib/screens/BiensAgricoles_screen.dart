@@ -1,62 +1,23 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../config.dart';
+import '../providers/post_provider.dart';
+import '../models/pagination.dart';
+import '../models/post.dart';
 import '../widgets/base_screen.dart';
 
-class BiensAgricolesScreen extends StatefulWidget {
+class BiensAgricolesScreen extends ConsumerWidget {
   @override
-  _BiensAgricolesScreenState createState() => _BiensAgricolesScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final postsAsyncValue = ref.watch(postsProvider(PaginationModel(Category : 'biens',page: 1, pageSize: 10)));
 
-class _BiensAgricolesScreenState extends State<BiensAgricolesScreen> {
-  late Future<List<dynamic>> _productsFuture;
-  List<dynamic> _allProducts = [];
-  List<dynamic> _filteredProducts = [];
-  String _searchQuery = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _loadProducts().then((products) {
-      setState(() {
-        _allProducts = products;
-        _filteredProducts = products;
-      });
-    });
-  }
-
-  Future<List<dynamic>> _loadProducts() async {
-    try {
-      final String response = await rootBundle.loadString('assets/biens_agricoles.json');
-      final List<dynamic> data = json.decode(response) as List<dynamic>;
-      return data;
-    } catch (e) {
-      print('Error loading products: $e');
-      return [];
-    }
-  }
-
-  void _filterProducts(String query) {
-    setState(() {
-      _searchQuery = query;
-      _filteredProducts = _allProducts.where((product) {
-        final title = product['title'].toLowerCase();
-        final description = product['description'].toLowerCase();
-        final searchLower = query.toLowerCase();
-        return title.contains(searchLower) || description.contains(searchLower);
-      }).toList();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return BaseScreen(
       currentIndex: 0,
       showBottomNavBar: true,
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'BIENS AGRICOLES',
+            'BIENS AGRICOLE',
             style: TextStyle(
               color: Color.fromRGBO(76, 175, 80, 1),
               fontWeight: FontWeight.bold,
@@ -66,36 +27,45 @@ class _BiensAgricolesScreenState extends State<BiensAgricolesScreen> {
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.green),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: () => Navigator.pop(context),
           ),
         ),
         body: Stack(
           children: [
-           
+            // Arrière-plan
+            _buildBackgroundImage(112.04, 96.6, -120, 'assets/images/background.png', 101.87, 100.08),
+            _buildBackgroundImage(158.36, 383.1, 118.65, 'assets/images/background.png', 144.13, 141.59),
+            _buildBackgroundImage(461.47, 315.62, 58.41, 'assets/images/background.png', 144.13, 141.59),
+            _buildBackgroundImage(803.8, 363.16, 70.53, 'assets/images/background.png', 82.88, 81.42),
+
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
+                  // Recherche
                   _buildSearchBar(),
                   SizedBox(height: 10),
+                  // Filtre
                   _buildFilterBar(),
                   SizedBox(height: 10),
+                  // Liste des posts
                   Expanded(
-                    child: _filteredProducts.isNotEmpty
-                        ? ListView.separated(
-                            padding: EdgeInsets.only(top: 16.0),
-                            itemCount: _filteredProducts.length,
-                            separatorBuilder: (context, index) => SizedBox(height: 16),
-                            itemBuilder: (context, index) {
-                              final product = _filteredProducts[index];
-                              return _buildProductCard(product);
-                            },
-                          )
-                        : Center(
-                            child: Text('No products found'),
-                          ),
+                    child: postsAsyncValue.when(
+                      data: (posts) {
+                        if (posts == null || posts.isEmpty) {
+                          return Center(child: Text('Aucun post trouvé'));
+                        }
+                        return ListView.builder(
+                          padding: EdgeInsets.all(6),
+                          itemCount: posts.length,
+                          itemBuilder: (context, index) {
+                            return _buildPostCard(posts[index]);
+                          },
+                        );
+                      },
+                      loading: () => Center(child: CircularProgressIndicator()),
+                      error: (err, stack) => Center(child: Text('Erreur : $err')),
+                    ),
                   ),
                 ],
               ),
@@ -106,6 +76,7 @@ class _BiensAgricolesScreenState extends State<BiensAgricolesScreen> {
     );
   }
 
+  // Barre de recherche
   Widget _buildSearchBar() {
     return TextField(
       decoration: InputDecoration(
@@ -119,13 +90,16 @@ class _BiensAgricolesScreenState extends State<BiensAgricolesScreen> {
           borderSide: BorderSide.none,
         ),
       ),
-      onChanged: (query) => _filterProducts(query),
+      onChanged: (query) {
+        // Logique de filtrage ici (si nécessaire)
+      },
     );
   }
 
+  // Barre de filtres
   Widget _buildFilterBar() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
         borderRadius: BorderRadius.circular(8),
@@ -152,6 +126,7 @@ class _BiensAgricolesScreenState extends State<BiensAgricolesScreen> {
     );
   }
 
+  // Bouton de filtre
   Widget _buildFilterButton(String label) {
     return Center(
       child: Text(
@@ -161,9 +136,10 @@ class _BiensAgricolesScreenState extends State<BiensAgricolesScreen> {
     );
   }
 
-  Widget _buildProductCard(Map<String, dynamic> product) {
+  // Carte pour afficher chaque post
+  Widget _buildPostCard(Post post) {
     return Container(
-      width: 410,
+      width: double.infinity, // Augmentation de la largeur pour éviter l'overflow
       height: 169,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -184,9 +160,10 @@ class _BiensAgricolesScreenState extends State<BiensAgricolesScreen> {
             flex: 2,
             child: ClipRRect(
               borderRadius: BorderRadius.horizontal(left: Radius.circular(8)),
-              child: Image.asset(
-                product['imageUrl'],
+              child: Image.network(
+                Config.imageURL + post.PostImage,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image, size: 150),
               ),
             ),
           ),
@@ -199,7 +176,7 @@ class _BiensAgricolesScreenState extends State<BiensAgricolesScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product['title'],
+                    post.postId,
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
@@ -207,11 +184,13 @@ class _BiensAgricolesScreenState extends State<BiensAgricolesScreen> {
                   ),
                   SizedBox(height: 6),
                   Text(
-                    product['description'],
+                    post.PostDescription,
                     style: TextStyle(
                       fontSize: 13,
                       color: Colors.grey,
                     ),
+                    maxLines: 2, // Limite le texte à 2 lignes
+                    overflow: TextOverflow.ellipsis, // Affiche "..." si le texte dépasse
                   ),
                   Spacer(),
                   Row(
@@ -230,9 +209,10 @@ class _BiensAgricolesScreenState extends State<BiensAgricolesScreen> {
     );
   }
 
+  // Bouton d'action
   Widget _buildActionButton(String label, IconData icon) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
       decoration: BoxDecoration(
         color: label == 'Buy' ? Colors.green : Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -254,5 +234,22 @@ class _BiensAgricolesScreenState extends State<BiensAgricolesScreen> {
     );
   }
 
-  
+  // Méthode pour afficher l'image d'arrière-plan
+  Widget _buildBackgroundImage(double top, double left, double angle, String assetPath, double width, double height) {
+    return Positioned(
+      top: top,
+      left: left,
+      child: Transform.rotate(
+        angle: angle * 3.141592653589793 / 180,
+        child: Opacity(
+          opacity: 0.1,
+          child: Image.asset(
+            assetPath,
+            width: width,
+            height: height,
+          ),
+        ),
+      ),
+    );
+  }
 }

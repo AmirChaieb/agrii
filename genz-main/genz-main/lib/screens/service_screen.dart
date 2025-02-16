@@ -42,7 +42,7 @@ class ServiceScreen extends StatelessWidget {
               const SizedBox(height: 16),
               _buildDetailedCategory(
                 context,
-                'Bureauimport ',
+                'Bureau d\'etude ',
                 'Agriculture Farming',
                 'assets/images/2.png',
                 'but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',
@@ -51,7 +51,7 @@ class ServiceScreen extends StatelessWidget {
               const SizedBox(height: 16),
               _buildDetailedCategory(
                 context,
-                'Intrant agricoles',
+                'Conseillé',
                 'Agriculture Farming',
                 'assets/images/3.png',
                 'but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum',

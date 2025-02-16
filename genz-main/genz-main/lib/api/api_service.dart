@@ -13,10 +13,11 @@ final apiService = Provider((ref) => APIService());
 class APIService {
   static var client = http.Client();
 
-  Future<List<Post>?> getPosts(page, pageSize) async {
+  Future<List<Post>?> getPosts(Category, page, pageSize) async {
     Map<String, String> requestHeaders = {'Content-Type' : 'application/json'};
 
     Map<String, String> queryString = {
+      'Category' : Category,
       'page' : page.toString(),
       'pageSize' : pageSize.toString()
     };

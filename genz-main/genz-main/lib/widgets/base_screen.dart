@@ -4,6 +4,7 @@ import 'package:yoser/screens/factuer.dart';
 import 'package:yoser/screens/home_screen.dart';
 import 'package:yoser/screens/about_screen.dart';
 import 'package:yoser/screens/personnalisation_screen.dart';
+import '../screens/addpostproduct.dart';
 import '../widgets/custom_bottom_nav_bar.dart';
 
 import 'package:yoser/screens/panier_screen.dart';
@@ -58,7 +59,7 @@ class BaseScreen extends StatelessWidget {
             else if (index == 1) {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => ContactListScreen()),
+                MaterialPageRoute(builder: (context) => Addpostproduct()),
               );
             }
 

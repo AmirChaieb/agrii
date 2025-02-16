@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PaginationModel {
   int get page => throw _privateConstructorUsedError;
   int get pageSize => throw _privateConstructorUsedError;
+  String get Category => throw _privateConstructorUsedError;
 
   /// Create a copy of PaginationModel
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +33,7 @@ abstract class $PaginationModelCopyWith<$Res> {
           PaginationModel value, $Res Function(PaginationModel) then) =
       _$PaginationModelCopyWithImpl<$Res, PaginationModel>;
   @useResult
-  $Res call({int page, int pageSize});
+  $Res call({int page, int pageSize, String Category});
 }
 
 /// @nodoc
@@ -52,6 +53,7 @@ class _$PaginationModelCopyWithImpl<$Res, $Val extends PaginationModel>
   $Res call({
     Object? page = null,
     Object? pageSize = null,
+    Object? Category = null,
   }) {
     return _then(_value.copyWith(
       page: null == page
@@ -62,6 +64,10 @@ class _$PaginationModelCopyWithImpl<$Res, $Val extends PaginationModel>
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
               as int,
+      Category: null == Category
+          ? _value.Category
+          : Category // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -74,7 +80,7 @@ abstract class _$$PaginationModelImplCopyWith<$Res>
       __$$PaginationModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int page, int pageSize});
+  $Res call({int page, int pageSize, String Category});
 }
 
 /// @nodoc
@@ -92,6 +98,7 @@ class __$$PaginationModelImplCopyWithImpl<$Res>
   $Res call({
     Object? page = null,
     Object? pageSize = null,
+    Object? Category = null,
   }) {
     return _then(_$PaginationModelImpl(
       page: null == page
@@ -102,6 +109,10 @@ class __$$PaginationModelImplCopyWithImpl<$Res>
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
               as int,
+      Category: null == Category
+          ? _value.Category
+          : Category // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -109,16 +120,19 @@ class __$$PaginationModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PaginationModelImpl implements _PaginationModel {
-  _$PaginationModelImpl({required this.page, required this.pageSize});
+  _$PaginationModelImpl(
+      {required this.page, required this.pageSize, required this.Category});
 
   @override
   final int page;
   @override
   final int pageSize;
+  @override
+  final String Category;
 
   @override
   String toString() {
-    return 'PaginationModel(page: $page, pageSize: $pageSize)';
+    return 'PaginationModel(page: $page, pageSize: $pageSize, Category: $Category)';
   }
 
   @override
@@ -128,11 +142,13 @@ class _$PaginationModelImpl implements _PaginationModel {
             other is _$PaginationModelImpl &&
             (identical(other.page, page) || other.page == page) &&
             (identical(other.pageSize, pageSize) ||
-                other.pageSize == pageSize));
+                other.pageSize == pageSize) &&
+            (identical(other.Category, Category) ||
+                other.Category == Category));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, page, pageSize);
+  int get hashCode => Object.hash(runtimeType, page, pageSize, Category);
 
   /// Create a copy of PaginationModel
   /// with the given fields replaced by the non-null parameter values.
@@ -147,12 +163,15 @@ class _$PaginationModelImpl implements _PaginationModel {
 abstract class _PaginationModel implements PaginationModel {
   factory _PaginationModel(
       {required final int page,
-      required final int pageSize}) = _$PaginationModelImpl;
+      required final int pageSize,
+      required final String Category}) = _$PaginationModelImpl;
 
   @override
   int get page;
   @override
   int get pageSize;
+  @override
+  String get Category;
 
   /// Create a copy of PaginationModel
   /// with the given fields replaced by the non-null parameter values.

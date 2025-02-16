@@ -9,7 +9,7 @@ import '../widgets/base_screen.dart';
 class IntrantListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final postsAsyncValue = ref.watch(postsProvider(PaginationModel(page: 1, pageSize: 10)));
+    final postsAsyncValue = ref.watch(postsProvider(PaginationModel(Category : 'intrant',page: 1, pageSize: 10)));
 
     return BaseScreen(
       currentIndex: 0,
@@ -212,7 +212,7 @@ class IntrantListScreen extends ConsumerWidget {
   // Bouton d'action
   Widget _buildActionButton(String label, IconData icon) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 6),
       decoration: BoxDecoration(
         color: label == 'Buy' ? Colors.green : Colors.white,
         borderRadius: BorderRadius.circular(8),
