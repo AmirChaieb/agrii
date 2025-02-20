@@ -59,7 +59,7 @@ class BaseScreen extends StatelessWidget {
             else if (index == 1) {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Addpostproduct()),
+                MaterialPageRoute(builder: (context) => AddPostProduct()),
               );
             }
 
